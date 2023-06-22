@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Socks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
