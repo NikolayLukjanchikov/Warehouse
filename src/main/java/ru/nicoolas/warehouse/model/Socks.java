@@ -15,7 +15,6 @@ public class Socks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
     @Column(name = "color", nullable = false)
     private String color;
     @Column(name = "cotton_part", nullable = false)
