@@ -17,7 +17,7 @@ public class Socks {
     private Long id;
     @Column(name = "color", nullable = false)
     private String color;
-    @Column(name = "cotton_part", nullable = false)
-    private String cottonPart;
+    @Column(name = "cotton_part")
+    private Integer cottonPart;
 
 }
