@@ -3,7 +3,7 @@
 --changeset Nikolay:1
 CREATE TABLE socks
 (
-    id          BIGINT,
-    color       VARCHAR(50),
-    cotton_part INTEGER
+    color          VARCHAR(50),
+    cotton_part    INTEGER,
+    total_quantity INTEGER
 );

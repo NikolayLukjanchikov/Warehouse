@@ -12,12 +12,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Socks {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
     @Column(name = "color", nullable = false)
     private String color;
     @Column(name = "cotton_part")
     private Integer cottonPart;
-
+    @Column(name = "total_quantity")
+    private Integer quantity;
 }
