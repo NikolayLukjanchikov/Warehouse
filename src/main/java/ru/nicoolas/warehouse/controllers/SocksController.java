@@ -11,7 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.nicoolas.warehouse.model.Socks;
-import ru.nicoolas.warehouse.repository.SocksRepository;
+import ru.nicoolas.warehouse.service.SocksService;
+import ru.nicoolas.warehouse.service.impl.SocksServiceImpl;
 
 
 @RestController
@@ -19,7 +20,7 @@ import ru.nicoolas.warehouse.repository.SocksRepository;
 @AllArgsConstructor
 @Tag(name = "Управляем носками", description = "Позволяет управлять методами по работе с носками")
 public class SocksController {
-    private SocksRepository socksRepository;
+    private SocksServiceImpl socksService;
 
     @Operation(summary = "Метод регистрирует приход носков на склад", description = "регистрация прихода с параметрами",
             responses = {
@@ -29,7 +30,7 @@ public class SocksController {
             })
     @PostMapping("/income")
     public ResponseEntity<Void> income(@RequestBody Socks socks) {
-        // socksRepository.addNew(socks);
+        socksService.addSocks(socks);
         return ResponseEntity.ok().build();
     }
 
