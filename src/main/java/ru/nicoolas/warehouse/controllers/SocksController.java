@@ -7,11 +7,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.nicoolas.warehouse.model.Socks;
-import ru.nicoolas.warehouse.service.SocksService;
 import ru.nicoolas.warehouse.service.impl.SocksServiceImpl;
 
 
@@ -34,24 +32,35 @@ public class SocksController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Метод регистрирует отпуск носков со склада", description = "отпуск носков с параметрами",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "удалось провести выбытие", content = @Content(schema = @Schema())),
+                    @ApiResponse(responseCode = "400", description = "параметры запроса отсутствуют или имеют некорректный формат", content = @Content(schema = @Schema())),
+                    @ApiResponse(responseCode = "500", description = "произошла ошибка, не зависящая от вызывающей стороны (например, база данных недоступна).", content = @Content(schema = @Schema()))
+            })
+    @PostMapping("/outcome")
+    public ResponseEntity<Void> outcome(@RequestBody Socks socks) {
+        socksService.deleteSocks(socks);
+        return ResponseEntity.ok().build();
+    }
+
+
     @Operation(summary = "Возвращает общее количество носков на складе, соответствующих переданным в параметрах критериям запроса",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "запрос выполнен", content = @Content(schema = @Schema(implementation = Integer.class))),
+                    @ApiResponse(responseCode = "200", description = "запрос выполнен", content = @Content(schema = @Schema())),
                     @ApiResponse(responseCode = "400", description = "параметры запроса отсутствуют или имеют некорректный формат.", content = @Content(schema = @Schema())),
                     @ApiResponse(responseCode = "500", description = "произошла ошибка, не зависящая от вызывающей стороны (например, база данных недоступна.", content = @Content(schema = @Schema()))
             })
     @GetMapping
-    public ResponseEntity<Integer> getTotalSocksCount(@RequestParam("color") String color,
-                                                      @RequestParam("operation") String operation,
-                                                      @RequestParam("cottonPart") int cottonPart) {
+    public ResponseEntity<String> getTotalSocksCount(@RequestParam("color") String color,
+                                                     @RequestParam("operation") String operation,
+                                                     @RequestParam("cottonPart") int cottonPart) {
         if (color == null || operation == null || (operation.equals("moreThan") && operation.equals("lessThan") && operation.equals("equal"))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            int totalSocksCount = 3;
             return ResponseEntity.ok()
-                    .contentType(MediaType.TEXT_PLAIN)
-                    .body(totalSocksCount);
+                    .body(String.valueOf(socksService.getTotalQuantity(color, operation, cottonPart)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
