@@ -3,7 +3,7 @@ package ru.nicoolas.warehouse.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Entity
 @Data
@@ -11,11 +11,14 @@ import javax.validation.constraints.NotNull;
 public class Socks {
     @Id
     @Column(name = "color", nullable = false)
+    @NotBlank
     private String color;
     @Id
     @Column(name = "cotton_part")
+    @NotBlank
     private Integer cottonPart;
-    @NotNull
     @Column(name = "total_quantity")
+    @NotBlank
+    @NotNull
     private Integer quantity;
 }

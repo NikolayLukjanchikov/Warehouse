@@ -13,7 +13,7 @@ import java.security.InvalidParameterException;
 @Service
 @AllArgsConstructor
 public class SocksServiceImpl implements SocksService {
-    private SocksRepository socksRepository;
+    final private SocksRepository socksRepository;
 
     public void addSocks(Socks socks) {
         if (socks.getQuantity() <= 0) {

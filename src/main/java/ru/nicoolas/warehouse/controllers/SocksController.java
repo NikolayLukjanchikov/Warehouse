@@ -6,9 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.nicoolas.warehouse.Exceptions.NotEnoughtGoodsOnWarehouseException;
 import ru.nicoolas.warehouse.model.Socks;
 import ru.nicoolas.warehouse.service.impl.SocksServiceImpl;
 
@@ -40,8 +42,14 @@ public class SocksController {
             })
     @PostMapping("/outcome")
     public ResponseEntity<Void> outcome(@RequestBody Socks socks) {
-        socksService.deleteSocks(socks);
-        return ResponseEntity.ok().build();
+        try {
+            socksService.deleteSocks(socks);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException | NotEnoughtGoodsOnWarehouseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 
@@ -55,7 +63,7 @@ public class SocksController {
     public ResponseEntity<String> getTotalSocksCount(@RequestParam("color") String color,
                                                      @RequestParam("operation") String operation,
                                                      @RequestParam("cottonPart") int cottonPart) {
-        if (color == null || operation == null || (operation.equals("moreThan") && operation.equals("lessThan") && operation.equals("equal"))) {
+        if (StringUtils.isBlank(color) || StringUtils.isBlank(operation) || cottonPart < 0 || (operation.equals("moreThan") && operation.equals("lessThan") && operation.equals("equal"))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
