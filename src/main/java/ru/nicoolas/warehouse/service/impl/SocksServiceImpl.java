@@ -11,6 +11,9 @@ import ru.nicoolas.warehouse.service.SocksService;
 @Service
 @AllArgsConstructor
 public class SocksServiceImpl implements SocksService {
+    public static final int MIN_EDGE = 0;
+    public static final int MAX_EDGE = 100;
+
     final private SocksRepository socksRepository;
 
     public void addSocks(Socks socks) {
@@ -46,13 +49,13 @@ public class SocksServiceImpl implements SocksService {
     }
 
     private void checkQuantity(Socks socks) {
-        if (socks.getQuantity() <= 0) {
+        if (socks.getQuantity() <= MIN_EDGE) {
             throw new IllegalArgumentException("Значение quantity должно быть больше нуля");
         }
         if (socks.getColor().isBlank()) {
             throw new IllegalArgumentException("Значение color не может быть пустым");
         }
-        if (socks.getCottonPart() < 0 || socks.getCottonPart() > 100) {
+        if (socks.getCottonPart() < MIN_EDGE || socks.getCottonPart() > MAX_EDGE) {
             throw new IllegalArgumentException("Значение cottonPart не может быть меньше 0 и больше 100");
         }
     }

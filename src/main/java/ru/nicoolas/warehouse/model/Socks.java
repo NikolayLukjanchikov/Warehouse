@@ -1,5 +1,6 @@
 package ru.nicoolas.warehouse.model;
 
+import io.swagger.v3.oas.annotations.callbacks.Callbacks;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,4 +22,5 @@ public class Socks {
     @NotBlank
     @NotNull
     private Integer quantity;
+
 }
