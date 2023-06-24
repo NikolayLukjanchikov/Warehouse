@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.nicoolas.warehouse.Exceptions.NotEnoughGoodsOnWarehouseException;
 import ru.nicoolas.warehouse.model.ErrorMessage;
 
+/**
+ * Класс-контроллер для обработки сообщений исключений
+ */
 @RestControllerAdvice
 public class ExceptionApiHandler {
 

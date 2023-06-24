@@ -7,7 +7,10 @@ import ru.nicoolas.warehouse.model.Socks;
 import ru.nicoolas.warehouse.repository.SocksRepository;
 import ru.nicoolas.warehouse.service.SocksService;
 
-
+/**
+ * Сервис-класс содержжащий логику работы с носками
+ * Реализует интерфейс {@link SocksService}
+ */
 @Service
 @AllArgsConstructor
 public class SocksServiceImpl implements SocksService {
@@ -16,6 +19,11 @@ public class SocksServiceImpl implements SocksService {
 
     final private SocksRepository socksRepository;
 
+    /**
+     * Метод для добавления носков на склад
+     *
+     * @param socks
+     */
     public void addSocks(Socks socks) {
         checkQuantity(socks);
         socks.setColor(socks.getColor().toLowerCase());
@@ -24,6 +32,11 @@ public class SocksServiceImpl implements SocksService {
         socksRepository.save(socks);
     }
 
+    /**
+     * Метод для удаления носков со склада
+     *
+     * @param socks
+     */
     public void deleteSocks(Socks socks) {
         checkQuantity(socks);
         socks.setColor(socks.getColor().toLowerCase());
@@ -31,10 +44,23 @@ public class SocksServiceImpl implements SocksService {
         if (totalQuantity < socks.getQuantity()) {
             throw new NotEnoughGoodsOnWarehouseException("Недостаточно товара на складе");
         }
-        socks.setQuantity(totalQuantity - socks.getQuantity());
-        socksRepository.save(socks);
+        totalQuantity -= socks.getQuantity();
+        if (totalQuantity == 0) {
+            socksRepository.delete(socks);
+        } else {
+            socks.setQuantity(totalQuantity);
+            socksRepository.save(socks);
+        }
     }
 
+    /**
+     * Метод для получения количества носков на складе по заданным параметрам
+     *
+     * @param color      цвет носков
+     * @param operation  операция сравнения
+     * @param cottonPart содержание хлопка в носках
+     * @return возврашает челочисленное количество носков на складе согласно параметрам
+     */
     public int getTotalQuantity(String color, String operation, int cottonPart) {
         switch (operation) {
             case "moreThan":
@@ -63,7 +89,6 @@ public class SocksServiceImpl implements SocksService {
     private int getEqualTotalQuantity(Socks socks) {
         return socksRepository.getTotalQuantityByColorAndCottonPartEquals(socks.getColor(), socks.getCottonPart()).orElse(0);
     }
-
 
 }
 

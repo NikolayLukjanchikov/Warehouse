@@ -1,11 +1,13 @@
 package ru.nicoolas.warehouse.model;
 
-import io.swagger.v3.oas.annotations.callbacks.Callbacks;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+/**
+ * Класс-сущность для носков
+ */
 @Entity
 @Data
 @IdClass(SocksCompositePK.class)
