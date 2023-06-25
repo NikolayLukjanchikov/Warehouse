@@ -17,7 +17,7 @@ import ru.nicoolas.warehouse.service.impl.SocksServiceImpl;
 @RestController
 @RequestMapping("/api/socks")
 @AllArgsConstructor
-@Tag(name = "Управляем носками", description = "Позволяет управлять методами по работе с носками")
+@Tag(name = "Система управления складом", description = "Позволяет управлять методами по работе с товарами")
 public class SocksController {
     private SocksServiceImpl socksService;
 
@@ -77,6 +77,6 @@ public class SocksController {
                                                      @RequestParam("operation") String operation,
                                                      @RequestParam("cottonPart") int cottonPart) {
         return ResponseEntity.ok()
-                .body(String.valueOf(socksService.getTotalQuantity(color.toLowerCase(), operation, cottonPart)));
+                .body(String.valueOf(socksService.getTotalQuantity(color, operation, cottonPart)));
     }
 }
