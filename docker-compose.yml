@@ -11,7 +11,7 @@ services:
       - service-db
     environment:
       - SERVER_PORT= 8881
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/warehouse
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db:5432/warehouse
 
   service-db:
     image: postgres:15-alpine
