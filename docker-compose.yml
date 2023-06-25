@@ -11,13 +11,13 @@ services:
       - service-db
     environment:
       - SERVER_PORT= 8881
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db:5432/warehouse
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/warehouse
 
   service-db:
-    image: postgres:15-alpine
+    image: postgres:14.7-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: warehouse_admin
+      POSTGRES_PASSWORD: 123456
     ports:
       - "5432:5432"
     volumes:
