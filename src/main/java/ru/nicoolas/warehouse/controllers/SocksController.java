@@ -77,6 +77,6 @@ public class SocksController {
                                                      @RequestParam("operation") String operation,
                                                      @RequestParam("cottonPart") int cottonPart) {
         return ResponseEntity.ok()
-                .body(String.valueOf(socksService.getTotalQuantity(color, operation, cottonPart)));
+                .body(String.valueOf(socksService.getTotalQuantity(color.toLowerCase(), operation, cottonPart)));
     }
 }
