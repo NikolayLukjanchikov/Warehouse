@@ -22,7 +22,7 @@ public class SocksServiceImpl implements SocksService {
     /**
      * Метод для добавления носков на склад
      *
-     * @param socks
+     * @param socks носки в JSON
      */
     public void addSocks(Socks socks) {
         checkQuantity(socks);
@@ -35,7 +35,7 @@ public class SocksServiceImpl implements SocksService {
     /**
      * Метод для удаления носков со склада
      *
-     * @param socks
+     * @param socks носки в JSON
      */
     public void deleteSocks(Socks socks) {
         checkQuantity(socks);
@@ -63,16 +63,14 @@ public class SocksServiceImpl implements SocksService {
      */
     public int getTotalQuantity(String color, String operation, int cottonPart) {
         color = color.trim().toLowerCase();
-        switch (operation) {
-            case "moreThan":
-                return socksRepository.getTotalQuantityByColorAndCottonPartGreaterThan(color, cottonPart).orElse(0);
-            case "lessThan":
-                return socksRepository.getTotalQuantityByColorAndCottonPartLessThan(color, cottonPart).orElse(0);
-            case "equal":
-                return socksRepository.getTotalQuantityByColorAndCottonPartEquals(color, cottonPart).orElse(0);
-            default:
-                throw new IllegalArgumentException("Введены некорректные параметры запроса: " + operation);
-        }
+        return switch (operation) {
+            case "moreThan" ->
+                    socksRepository.getTotalQuantityByColorAndCottonPartGreaterThan(color, cottonPart).orElse(0);
+            case "lessThan" ->
+                    socksRepository.getTotalQuantityByColorAndCottonPartLessThan(color, cottonPart).orElse(0);
+            case "equal" -> socksRepository.getTotalQuantityByColorAndCottonPartEquals(color, cottonPart).orElse(0);
+            default -> throw new IllegalArgumentException("Введены некорректные параметры запроса: " + operation);
+        };
     }
 
     private void checkQuantity(Socks socks) {
