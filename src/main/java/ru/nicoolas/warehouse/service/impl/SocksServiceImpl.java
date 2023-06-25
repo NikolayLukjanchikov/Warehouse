@@ -62,6 +62,7 @@ public class SocksServiceImpl implements SocksService {
      * @return возврашает челочисленное количество носков на складе согласно параметрам
      */
     public int getTotalQuantity(String color, String operation, int cottonPart) {
+        color = color.trim().toLowerCase();
         switch (operation) {
             case "moreThan":
                 return socksRepository.getTotalQuantityByColorAndCottonPartGreaterThan(color, cottonPart).orElse(0);
