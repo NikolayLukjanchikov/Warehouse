@@ -64,11 +64,11 @@ public class SocksServiceImpl implements SocksService {
     public int getTotalQuantity(String color, String operation, int cottonPart) {
         switch (operation) {
             case "moreThan":
-                return socksRepository.getTotalQuantityByColorAndCottonPartGreaterThan(color, cottonPart).orElse(0);
+                return socksRepository.getTotalQuantityByColorAndCottonPartGreaterThan(color.toLowerCase(), cottonPart).orElse(0);
             case "lessThan":
-                return socksRepository.getTotalQuantityByColorAndCottonPartLessThan(color, cottonPart).orElse(0);
+                return socksRepository.getTotalQuantityByColorAndCottonPartLessThan(color.toLowerCase(), cottonPart).orElse(0);
             case "equal":
-                return socksRepository.getTotalQuantityByColorAndCottonPartEquals(color, cottonPart).orElse(0);
+                return socksRepository.getTotalQuantityByColorAndCottonPartEquals(color.toLowerCase(), cottonPart).orElse(0);
             default:
                 throw new IllegalArgumentException("Введены некорректные параметры запроса: " + operation);
         }
