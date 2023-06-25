@@ -21,7 +21,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./src/main/resources/liquibase/scripts/socks.sql:/docker-entrypoint-initdb.d/socks.sql
+      - ./src/main/resources/liquibase/scripts/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
 
